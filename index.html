@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Won J. You — Video Archive</title>
+  <meta name="description" content="A video archive of work and play from Won J. You — twenty years of pixels in motion.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon-mark.svg">
+  <link rel="preload" href="fonts/PPRightGrotesk-TallBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles/site.css">
+</head>
+<body class="is-intro">
+  <a class="skip-link" href="#main">Skip to main</a>
+
+  <!-- Full-bleed blurred background video (mirrors current center frame) -->
+  <video class="bg-video" data-bg-video muted playsinline preload="none" loop disablepictureinpicture aria-hidden="true"></video>
+  <div class="bg-noise" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
+  <!-- Top chrome -->
+  <header class="chrome chrome--top" role="banner">
+    <div class="chrome__brand">
+      <a class="brand" href="index.html" aria-label="Won J. You — home">
+        <img class="brand__mark" src="assets/won-logo.svg" alt="Won J. You">
+      </a>
+    </div>
+    <div class="filters" data-filters role="tablist" aria-label="Filter projects">
+      <!-- populated by work.js -->
+    </div>
+  </header>
+
+  <!-- Vertical scale markers (decorative) -->
+  <div class="scale scale--left"  aria-hidden="true" data-scale-left></div>
+  <div class="scale scale--right" aria-hidden="true" data-scale-right></div>
+
+  <!-- Main viewport: SLIDER + LIST views -->
+  <main id="main" class="stage" data-stage>
+
+    <!-- SLIDER view (default) -->
+    <section class="slider" data-slider data-view="slider">
+
+      <!-- Tagline split — wraps the center frame -->
+      <div class="tagline tagline--left"  aria-hidden="true">
+        <span class="tagline__line">20+ Years</span>
+      </div>
+      <div class="tagline tagline--right" aria-hidden="true">
+        <span class="tagline__line">In Motion</span>
+      </div>
+
+      <!-- Frame group: meta tightly stacked around the center video -->
+      <div class="frame-group">
+        <p class="frame-meta frame-meta--above" data-frame-kind></p>
+
+        <button class="frame" type="button" data-frame aria-label="Open current project">
+          <span class="frame__corner frame__corner--tl" aria-hidden="true"></span>
+          <span class="frame__corner frame__corner--tr" aria-hidden="true"></span>
+          <span class="frame__corner frame__corner--bl" aria-hidden="true"></span>
+          <span class="frame__corner frame__corner--br" aria-hidden="true"></span>
+          <video class="frame__video" data-frame-video muted playsinline preload="auto" loop disablepictureinpicture></video>
+        </button>
+
+        <p class="frame-meta frame-meta--below" data-frame-pagination>
+          <span class="frame-meta__num"   data-frame-num>00.</span>
+          <span class="frame-meta__title" data-frame-title></span>
+          <span class="frame-meta__total" data-frame-total>.42</span>
+        </p>
+      </div>
+
+      <!-- Floating prev thumb (top): poster always visible, video plays on hover -->
+      <button class="floater floater--top" type="button" data-floater-prev aria-label="Previous project">
+        <video class="floater__video" data-floater-prev-video muted playsinline preload="none" loop disablepictureinpicture></video>
+      </button>
+
+      <!-- Floating next thumb (bottom): same pattern -->
+      <button class="floater floater--bottom" type="button" data-floater-next aria-label="Next project">
+        <video class="floater__video" data-floater-next-video muted playsinline preload="none" loop disablepictureinpicture></video>
+      </button>
+    </section>
+
+    <!-- LIST view (hidden until toggle) -->
+    <section class="list" data-list data-view="list" hidden>
+      <ol class="list__rows" data-list-rows></ol>
+    </section>
+  </main>
+
+  <!-- Bottom chrome -->
+  <footer class="chrome chrome--bottom" role="contentinfo">
+    <div class="chrome__bl">
+      <span class="chrome__copy">© <span data-current-year></span> Won J. You</span>
+    </div>
+    <div class="viewtoggle" data-view-toggle role="tablist" aria-label="View mode">
+      <button class="viewtoggle__btn viewtoggle__btn--active" type="button" data-view-set="slider" role="tab" aria-selected="true">Slider</button>
+      <span class="viewtoggle__sep">/</span>
+      <button class="viewtoggle__btn" type="button" data-view-set="list" role="tab" aria-selected="false">List</button>
+    </div>
+  </footer>
+
+  <!-- Modal player overlay -->
+  <div class="modal" data-modal hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__panel" role="document">
+      <header class="modal__head">
+        <button class="modal__close" type="button" data-modal-close aria-label="Close">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path d="M5 5 L19 19 M19 5 L5 19" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="square"/>
+          </svg>
+          <span>Close</span>
+        </button>
+        <h3 class="modal__title" id="modal-title" data-modal-title></h3>
+        <p class="modal__pos">
+          <span data-modal-num>00</span>
+          <span class="modal__sep">/</span>
+          <span data-modal-total>00</span>
+        </p>
+      </header>
+
+      <div class="modal__stage">
+        <span class="modal__corner modal__corner--tl" aria-hidden="true"></span>
+        <span class="modal__corner modal__corner--tr" aria-hidden="true"></span>
+        <span class="modal__corner modal__corner--bl" aria-hidden="true"></span>
+        <span class="modal__corner modal__corner--br" aria-hidden="true"></span>
+        <video class="modal__video" data-modal-video controls preload="auto" playsinline></video>
+      </div>
+
+      <p class="modal__desc" data-modal-desc></p>
+      <nav class="modal__parts" data-modal-parts aria-label="Parts"></nav>
+
+      <footer class="modal__foot">
+        <button class="modal__nav modal__nav--prev" type="button" data-modal-prev>
+          <span class="modal__nav-label">← Prev</span>
+          <span class="modal__nav-title" data-modal-prev-title></span>
+        </button>
+        <p class="modal__hint"><kbd>Esc</kbd> close · <kbd>←</kbd> <kbd>→</kbd> parts · <kbd>[</kbd> <kbd>]</kbd> projects</p>
+        <button class="modal__nav modal__nav--next" type="button" data-modal-next>
+          <span class="modal__nav-label">Next →</span>
+          <span class="modal__nav-title" data-modal-next-title></span>
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Page-fade overlay (initial reveal) -->
+  <div class="page-fade" data-page-fade aria-hidden="true"></div>
+
+  <script src="scripts/vendor/gsap.min.js"></script>
+  <script src="scripts/vendor/ScrollTrigger.min.js"></script>
+  <script src="scripts/site.js" defer></script>
+  <script src="scripts/work.js" defer></script>
+</body>
+</html>

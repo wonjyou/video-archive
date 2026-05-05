@@ -1,0 +1,191 @@
+{
+  "site": {
+    "owner":   "Won J. You",
+    "title":   "Video Archive",
+    "tagline": "Twenty years of pixels in motion.",
+    "intro":   "See the history of my past work through these saved screen recordings. My work is best viewed in motion, click to play."
+  },
+  "entries": [
+    { "id": "555soul",      "title": "555 Soul",            "kind": "Web",       "description": "Web identity site for the streetwear brand 555 Soul.",
+      "parts": [{ "label": "Fall", "file": "555soul-fall.mp4" }] },
+
+    { "id": "77",           "title": "seventy-seven",       "kind": "Web",       "description": "Early versions of my website, created back in the Flash days",
+      "parts": [
+        { "label": "v8", "file": "77v8.mp4" },
+        { "label": "v9", "file": "77v9.mp4" }
+      ] },
+
+    { "id": "alz",          "title": "Alzheimer's Assn.",   "kind": "Concept",       "featured": true, "description": "Awareness site for the Alzheimer's Association.",
+      "parts": [{ "label": "Site", "file": "alz.mp4" }] },
+
+    { "id": "aol",          "title": "AOL",                 "kind": "Web",       "description": "Programmatic physics animation for an AOL motion graphics piece.",
+      "parts": [{ "label": "Site", "file": "aol.mp4" }] },
+
+    { "id": "aris",         "title": "Aris",                "kind": "Product",   "featured": true, "description": "An early teaser website and mobile app design for Aris",
+      "parts": [{ "label": "Teaser Site", "file": "aris-dribbble.mp4" },
+      { "label": "Mobile App", "file": "aris-app.mp4" }] },
+
+    { "id": "bl",           "title": "Brightline",          "kind": "Loop",      "description": "Looping motion piece for Brightline's brand identity.",
+      "parts": [{ "label": "Loop", "file": "bl-loop.mp4" }] },
+
+    { "id": "bnc",          "title": "BN College",          "kind": "Product",   "description": "Mobile onboarding flow for Barnes & Noble College.",
+      "parts": [
+        { "label": "Mobile Onboarding", "file": "bnc-onboarding.mp4" },
+        { "label": "Concept",           "file": "transition.mp4" }
+      ] },
+
+
+    { "id": "caro",         "title": "Caro Garcia",         "kind": "Web",       "description": "Personal site for fashion designer Caro Garcia.",
+      "parts": [
+        { "label": "v1", "file": "caro.mp4" },
+        { "label": "v2", "file": "caro2.mp4" }
+      ] },
+
+    { "id": "ck",           "title": "Cramer-Krasselt",     "kind": "Web",       "description": "Agency site and intranet refresh for Cramer-Krasselt.",
+      "parts": [
+        { "label": "Site",     "file": "ck.mp4" },
+        { "label": "Intranet", "file": "ck-intranet.mp4" }
+      ] },
+
+
+    { "id": "curiosity",    "title": "Curiosity",           "kind": "Motion", "featured": true, "description": "Branded animation work for the Curiosity.com.",
+      "parts": [
+        { "label": "Animation", "file": "curiosity.mp4" },
+        { "label": "Teaser",    "file": "teaser.mp4" }
+      ] },
+
+    { "id": "dentsu",       "title": "Dentsu",              "kind": "Web",       "description": "Site work for the global creative network Dentsu.",
+      "parts": [{ "label": "Site", "file": "dentsu.mp4" }] },
+
+    { "id": "discoverme",   "title": "Discover Me",         "kind": "Concept",       "description": "Web platform connecting users to local discoveries.",
+      "parts": [{ "label": "Site", "file": "discoverme.mp4" }] },
+
+    { "id": "dkids",        "title": "Discovery Kids",         "kind": "Concept", "featured": true, "description": "Discovery Kids app concept.",
+      "parts": [{ "label": "ezine", "file": "dkids-shelf.mp4" }] },
+
+    { "id": "dominique",    "title": "Dominique Leone",     "kind": "Web",       "description": "Personal site for the musician Dominique Leone.",
+      "parts": [{ "label": "Site", "file": "dominique.mp4" }] },
+
+    { "id": "duracell",     "title": "Duracell",            "kind": "Web",       "featured": true, "description": "Battery-finder utility and OEM site for Duracell.",
+      "parts": [
+        { "label": "Finder", "file": "duracell-finder.mp4" },
+        { "label": "OEM",    "file": "duracell-oem.mp4" }
+      ] },
+
+    { "id": "ej",           "title": "Edward Jones",        "kind": "Web",    "description": "Campaign website for Edward Jones.",
+      "parts": [
+        { "label": "Part 1", "file": "ej-part1.mp4" },
+        { "label": "Part 2", "file": "ej-part2.mp4" }
+      ] },
+
+    { "id": "espn",         "title": "ESPN",                "kind": "Web",       "featured": true, "description": "Web property work for ESPN.",
+      "parts": [{ "label": "Site", "file": "espn.mp4" }] },
+
+    { "id": "fp",           "title": "Foreign Policy",      "kind": "Web",       "featured": true, "description": "Web presence for Foreign Policy magazine.",
+      "parts": [
+        { "label": "Short",   "file": "fp-short.mp4" },
+        { "label": "Website", "file": "fp-website.mp4" }
+      ] },
+
+    { "id": "frej",         "title": "Frej Hedenberg",      "kind": "Web",       "description": "Photography portfolio site for Frej Hedenberg.",
+      "parts": [{ "label": "Site", "file": "frej.mp4" }] },
+
+    { "id": "ghava",        "title": "Ghava",               "kind": "Web",       "description": "Brand site for Ghava",
+      "parts": [
+        { "label": "Main",  "file": "ghava.mp4" },
+        { "label": "Twist Version", "file": "twisty.mp4" }
+      ] },
+
+    { "id": "giftly",        "title": "Giftly",               "kind": "Product",       "description": "Product design for Giftly",
+      "parts": [
+        { "label": "Checkout",  "file": "giftly.mp4" }
+      ] },
+    { "id": "govisland",    "title": "Governors Island",    "kind": "Web",       "description": "Site for visitors of New York's Governors Island.",
+      "parts": [{ "label": "Site", "file": "govisland.mp4" }] },
+
+    { "id": "ingredient",   "title": "The Ingredient",      "kind": "Web",       "description": "Site for the branding agency The Ingredient.",
+      "parts": [{ "label": "Site", "file": "ingredient.mp4" }] },
+
+    { "id": "jeffkurek",    "title": "Jeff Kurek",          "kind": "Web",       "description": "Portfolio site for designer Jeff Kurek.",
+      "parts": [{ "label": "Site", "file": "jeffkurek.mp4" }] },
+    { "id": "lettuce",        "title": "Lettuce",              "kind": "Product",       "description": "Product design for Lettuce financial app for solopreneurs",
+      "parts": [
+        { "label": "Lettuce Wrapped",    "file": "lettuce.mp4" }
+      ] },
+
+    { "id": "l2inc",        "title": "L2 Inc",              "kind": "Web",       "description": "Site and compact build for L2 Inc.",
+      "parts": [
+        { "label": "Main",    "file": "l2inc.mp4" }
+      ] },
+
+    { "id": "mastromatteo", "title": "Mastromatteo",        "kind": "Web",       "description": "Portfolio site for the Mastromatteo photography studio.",
+      "parts": [{ "label": "Site", "file": "mastromatteo.mp4" }] },
+    { "id": "marlboro",        "title": "Marlboro Racing",   "kind": "Web",       "description": "Prototype build for Marlboro moto racing team",
+      "parts": [{ "label": "Site", "file": "marlboro.mp4" }] },
+    { "id": "maven",        "title": "Maven Interactive",   "kind": "Web",       "description": "Site for Maven Interactive.",
+      "parts": [{ "label": "Site", "file": "maven.mp4" }] },
+
+    { "id": "moethennessy", "title": "Moët Hennessy",       "kind": "Web",       "featured": true, "description": "Intranet site for Moët Hennessy.",
+      "parts": [{ "label": "Site", "file": "moethennessy.mp4" }] },
+
+    { "id": "morgancafe",   "title": "Morgan Café",         "kind": "Web",       "description": "Site for the Morgan Café (Morgan Library).",
+      "parts": [{ "label": "Site", "file": "morgancafe.mp4" }] },
+
+    { "id": "mymuse",       "title": "MyMuse",              "kind": "Motion",       "description": "Animation for MyMuse.",
+      "parts": [{ "label": "Site", "file": "mymuse.mp4" }] },
+
+    { "id": "nouvelle",     "title": "Nouvelle Vague",      "kind": "Web",       "description": "Web design for the lifestyle brand Nouvelle Vague.",
+      "parts": [{ "label": "Site", "file": "nouvelle2.mp4" }] },
+
+    { "id": "porsche",      "title": "Porsche",             "kind": "Web",    "featured": true, "description": "Mobile experience design for Porsche.",
+      "parts": [{ "label": "Mobile", "file": "porsche-mobile.mp4" },
+      { "label": "Mobile", "file": "porsche-desktop.mp4" },
+              { "label": "Site", "file": "burmester.mp4" }] },
+
+    { "id": "prideglory",   "title": "Pride & Glory",       "kind": "Web",   "featured": true, "description": "Movie website build for Pride & Glory",
+      "parts": [{ "label": "001", "file": "prideglory_001.mp4" },
+                 { "label": "002", "file": "prideglory-loader.mp4" }] },
+
+    { "id": "remix",        "title": "Remix.tv",            "kind": "Concept",   "description": "Concept work for Remix.tv.",
+      "parts": [{ "label": "Concept", "file": "remix.mp4" }] },
+
+    { "id": "rw",           "title": "RW.co",               "kind": "Web",       "description": "Site for consulting company RW.co",
+      "parts": [
+        { "label": "RW.co", "file": "rw.co.mp4" }
+      ] },
+
+    { "id": "shestirs",     "title": "SheStirs",            "kind": "Web",       "featured": true, "description": "Site, follow-up redesign, and the Plants microsite for SheStirs.",
+      "parts": [
+        { "label": "Site",    "file": "shestirs.mp4" },
+        { "label": "Site v2", "file": "shestirs2.mp4" },
+        { "label": "Plants",  "file": "shestirs-plants.mp4" }
+      ] },
+    { "id": "shopify",           "title": "Shopify",          "kind": "Product",       "description": "Mobile app design for a creators app.",
+      "parts": [
+        { "label": "Creators",       "file": "shopify-wide.mp4" }
+      ] },
+    { "id": "sp",           "title": "SurePeople",          "kind": "Web",       "description": "Comp and responsive build for SurePeople.",
+      "parts": [
+        { "label": "Responsive", "file": "sp-responsive.mp4" }
+      ] },
+
+    { "id": "stylecaster",  "title": "StyleCaster",         "kind": "Product",       "description": "Two iterations of the StyleCaster fashion publication site.",
+      "parts": [
+        { "label": "v1", "file": "stylecasterv1.mp4" },
+        { "label": "v2", "file": "stylecasterv2.mp4" }
+      ] },
+
+    { "id": "usarmy",       "title": "U.S. Army",           "kind": "Web",       "featured": true, "description": "Web work for the U.S. Army recruitment program.",
+      "parts": [{ "label": "Site", "file": "usarmy1.mp4" },
+                { "label": "Career Explorer", "file": "usarmy2.mp4" }] },
+    { "id": "wjy",        "title": "Won J You",               "kind": "Web",       "description": "Personal website of Won J. You.",
+      "parts": [        
+        { "label": "homepage",   "file": "wjy1.mp4" },
+        { "label": "navigation",   "file": "wjy2.mp4" }
+      ] },
+    { "id": "wsdia",        "title": "WSDIA",               "kind": "Web",       "description": "Site builds for WSDIA.",
+      "parts": [        
+        { "label": "v1",   "file": "wsdia.mp4" }
+      ] }
+  ]
+}

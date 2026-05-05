@@ -1,0 +1,40 @@
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+.#*
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local env / secrets
+.env
+.env.*
+!.env.example
+
+# Caches
+.cache/
+.tmp/
+__pycache__/
+.gstack/
+
+# Node (defensive — no package manifest in this project)
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Source video files — too large for GitHub's 100 MB limit; host elsewhere (S3/CDN/Vercel Blob/etc.)
+videos/
+
