@@ -68,7 +68,17 @@ html {
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;             /* hide intro slide-in overflow */
+  /* The archive is a fixed, viewport-sized shell — the document itself never
+     scrolls. On mobile that matters twice over: `100vh` is the *large* viewport
+     (toolbars hidden), so a 100vh-tall document is always taller than what's
+     actually visible and the page picks up a phantom scroll equal to the URL
+     bar's height. That phantom scroll is what shifts the page vertically at the
+     start of a swipe. Locking the document removes it; the list view gets its
+     own scroll container instead. `overscroll-behavior: none` additionally kills
+     rubber-band bounce and pull-to-refresh, so a swipe moves nothing at all. */
+  height: 100%;
+  overflow: hidden;               /* also hides intro slide-in overflow */
+  overscroll-behavior: none;
 }
 body {
   background: var(--bg);
@@ -76,7 +86,9 @@ body {
   font-family: var(--font-text);
   font-size: var(--fs-body);
   line-height: 1.5;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 img, video { display: block; max-width: 100%; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
@@ -375,19 +387,36 @@ body.is-modal .bg-vignette { background: var(--bg); }
 
 .stage {
   position: relative;
-  min-height: 100vh;
+  height: 100vh;
+  height: 100svh;                 /* small viewport = what's visible with toolbars shown */
   z-index: 2;
 }
 
 /* ---------- Slider view ---------- */
 
 .slider {
+  /* Vertical padding shrinks on short viewports so the frame group always has
+     room to sit inside the viewport instead of forcing the page taller. */
+  --slider-vpad: clamp(56px, 13svh, 120px);
+  /* Single source of truth for the center frame's width, shared with .tagline so
+     the two halves stay flush against the frame at every size. The last term is
+     a height budget: whatever's left after padding and the two meta lines, times
+     16/10, so the frame can never make the group taller than the viewport. */
+  --frame-w: max(160px, min(
+    clamp(380px, 38vw, 640px),
+    88vw,
+    calc((100svh - 2 * var(--slider-vpad) - 92px) * 1.6)
+  ));
+
   position: relative;
-  min-height: 100vh;
+  height: 100%;
   display: grid;
   align-items: center;
   justify-items: center;
-  padding: 120px 0;
+  padding: var(--slider-vpad) 0;
+  /* No browser panning from touches on the slider — the swipe drives the
+     transition and nothing else. Pinch-zoom stays available. */
+  touch-action: pinch-zoom;
   z-index: 2;
 }
 .slider[hidden] { display: none; }
@@ -396,7 +425,7 @@ body.is-modal .bg-vignette { background: var(--bg); }
    The .tagline__line inside is text-aligned toward the frame, and JS (fitTagline)
    sizes the font so the text fills its container width exactly — no negative space. */
 .tagline {
-  --frame-w: clamp(380px, 38vw, 640px);
+  /* --frame-w is inherited from .slider */
   --frame-half-w: calc(var(--frame-w) / 2);
   --frame-gap: 12px;
   position: absolute;
@@ -433,7 +462,7 @@ body.is-modal .bg-vignette { background: var(--bg); }
 .frame {
   position: relative;
   z-index: 2;
-  width: clamp(380px, 38vw, 640px);
+  width: var(--frame-w);
   aspect-ratio: 16 / 10;
   background: #0a0a0a;
   overflow: visible;
@@ -454,6 +483,10 @@ body.is-modal .bg-vignette { background: var(--bg); }
 .frame__corner--br { bottom: -10px; right: -10px;   border-left: 0;  border-top: 0; }
 
 .frame__video {
+  /* Taken out of flow (same pattern as .list__video) so a video whose intrinsic
+     ratio is taller than 16:10 can't stretch the button past its aspect-ratio
+     box — that stretch is what used to push the frame group out of the viewport. */
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
@@ -525,6 +558,8 @@ body.is-modal .bg-vignette { background: var(--bg); }
 body.is-intro .floater { opacity: 0; transition: none; }
 
 .floater__video {
+  /* Same reason as .frame__video — keep the floater at its 16:10 box. */
+  position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   display: block;
@@ -572,7 +607,11 @@ body.is-intro .floater { opacity: 0; transition: none; }
 
 .list {
   position: relative;
-  min-height: 100vh;
+  /* The document is locked, so the list carries its own scroller. `contain`
+     stops a list overscroll from chaining out to the page. */
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 120px clamp(40px, 8vw, 120px);
   display: block;
 }
@@ -641,10 +680,7 @@ body.is-intro .floater { opacity: 0; transition: none; }
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  filter: grayscale(100%);
-  transition: filter var(--dur-slow) var(--ease-out);
 }
-.list__btn:hover .list__video { filter: grayscale(0%); }
 
 @media (max-width: 900px) {
   .list__btn      { grid-template-columns: 40px 1fr 80px; gap: 16px; }
@@ -745,6 +781,25 @@ body.is-intro .floater { opacity: 0; transition: none; }
   width: 100%; height: 100%;
   object-fit: contain;
   background: #000;
+}
+.modal__spinner {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 48px; height: 48px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--lemon);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  animation: modal-spinner-rotate 0.9s linear infinite;
+  z-index: 1;
+}
+.modal__spinner.is-visible { opacity: 1; }
+@keyframes modal-spinner-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .modal__desc {

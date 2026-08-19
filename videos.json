@@ -18,22 +18,26 @@
     { "id": "alz",          "title": "Alzheimer's Assn.",   "kind": "Concept",       "featured": true, "description": "Awareness site for the Alzheimer's Association.",
       "parts": [{ "label": "Site", "file": "alz.mp4" }] },
 
+    { "id": "amex",          "title": "American Express",                 "kind": "Web",       "description": "Digital work for American Express.",
+      "parts": [{ "label": "Concept design", "file": "bigconcept.mp4" },
+      { "label": "Going Once", "file": "goingonce-site.mp4" }] },
+
     { "id": "aol",          "title": "AOL",                 "kind": "Web",       "description": "Programmatic physics animation for an AOL motion graphics piece.",
       "parts": [{ "label": "Site", "file": "aol.mp4" }] },
 
     { "id": "aris",         "title": "Aris",                "kind": "Product",   "featured": true, "description": "An early teaser website and mobile app design for Aris",
       "parts": [{ "label": "Teaser Site", "file": "aris-dribbble.mp4" },
+      { "label": "Web App", "file": "aris-web.mp4" },
       { "label": "Mobile App", "file": "aris-app.mp4" }] },
 
-    { "id": "bl",           "title": "Brightline",          "kind": "Loop",      "description": "Looping motion piece for Brightline's brand identity.",
-      "parts": [{ "label": "Loop", "file": "bl-loop.mp4" }] },
 
     { "id": "bnc",          "title": "BN College",          "kind": "Product",   "description": "Mobile onboarding flow for Barnes & Noble College.",
       "parts": [
         { "label": "Mobile Onboarding", "file": "bnc-onboarding.mp4" },
         { "label": "Concept",           "file": "transition.mp4" }
       ] },
-
+    { "id": "bp",           "title": "BP",          "kind": "Web",      "description": "Interactive annual report summary for BP.",
+      "parts": [{ "label": "Interactive Annual Report", "file": "bp.mp4" }] },
 
     { "id": "caro",         "title": "Caro Garcia",         "kind": "Web",       "description": "Personal site for fashion designer Caro Garcia.",
       "parts": [
@@ -108,9 +112,16 @@
 
     { "id": "jeffkurek",    "title": "Jeff Kurek",          "kind": "Web",       "description": "Portfolio site for designer Jeff Kurek.",
       "parts": [{ "label": "Site", "file": "jeffkurek.mp4" }] },
+
+    { "id": "katecamilla",        "title": "Kate & Camilla",              "kind": "Web",       "description": "Website build for photography studio in collaboration with WSDIA",
+      "parts": [
+        { "label": "Site",    "file": "katecamilla.mp4" }
+      ] },
+
     { "id": "lettuce",        "title": "Lettuce",              "kind": "Product",       "description": "Product design for Lettuce financial app for solopreneurs",
       "parts": [
-        { "label": "Lettuce Wrapped",    "file": "lettuce.mp4" }
+        { "label": "Lettuce Wrapped",    "file": "lettuce.mp4" },
+         { "label": "Tax Strategies Playbook",    "file": "playbook.mp4" }        
       ] },
 
     { "id": "l2inc",        "title": "L2 Inc",              "kind": "Web",       "description": "Site and compact build for L2 Inc.",
@@ -121,27 +132,33 @@
     { "id": "mastromatteo", "title": "Mastromatteo",        "kind": "Web",       "description": "Portfolio site for the Mastromatteo photography studio.",
       "parts": [{ "label": "Site", "file": "mastromatteo.mp4" }] },
     { "id": "marlboro",        "title": "Marlboro Racing",   "kind": "Web",       "description": "Prototype build for Marlboro moto racing team",
-      "parts": [{ "label": "Site", "file": "marlboro.mp4" }] },
+      "parts": [{ "label": "Site", "file": "marlboro.mp4" },
+                  { "label": "Moto Racings", "file": "marlboro-racing.mp4" }] },
     { "id": "maven",        "title": "Maven Interactive",   "kind": "Web",       "description": "Site for Maven Interactive.",
       "parts": [{ "label": "Site", "file": "maven.mp4" }] },
 
     { "id": "moethennessy", "title": "Moët Hennessy",       "kind": "Web",       "featured": true, "description": "Intranet site for Moët Hennessy.",
       "parts": [{ "label": "Site", "file": "moethennessy.mp4" }] },
 
-    { "id": "morgancafe",   "title": "Morgan Café",         "kind": "Web",       "description": "Site for the Morgan Café (Morgan Library).",
+    { "id": "morgancafe",   "title": "Morgan Café",         "kind": "Web",       "description": "Site for the Morgan Café in Chicago.",
       "parts": [{ "label": "Site", "file": "morgancafe.mp4" }] },
+
+    { "id": "mrm",   "title": "MRM Worldwide",         "kind": "Web",       "description": "Site for the digital agency for McCann Worldgroup.",
+      "parts": [{ "label": "Site", "file": "mrm.mp4" }] },
 
     { "id": "mymuse",       "title": "MyMuse",              "kind": "Motion",       "description": "Animation for MyMuse.",
       "parts": [{ "label": "Site", "file": "mymuse.mp4" }] },
 
     { "id": "nouvelle",     "title": "Nouvelle Vague",      "kind": "Web",       "description": "Web design for the lifestyle brand Nouvelle Vague.",
       "parts": [{ "label": "Site", "file": "nouvelle2.mp4" }] },
-
+    { "id": "otis",     "title": "Otis College of Art and Design",      "kind": "Web",       "description": "Interactive piece for Otis College",
+      "parts": [{ "label": "Site", "file": "otis.mp4" }] },
     { "id": "porsche",      "title": "Porsche",             "kind": "Web",    "featured": true, "description": "Mobile experience design for Porsche.",
       "parts": [{ "label": "Mobile", "file": "porsche-mobile.mp4" },
       { "label": "Mobile", "file": "porsche-desktop.mp4" },
               { "label": "Site", "file": "burmester.mp4" }] },
-
+    { "id": "prefuse",     "title": "Prefuse73",      "kind": "Web",       "description": "Interactive website build for Prefuse73",
+      "parts": [{ "label": "Site", "file": "prefuse73.mp4" }] },
     { "id": "prideglory",   "title": "Pride & Glory",       "kind": "Web",   "featured": true, "description": "Movie website build for Pride & Glory",
       "parts": [{ "label": "001", "file": "prideglory_001.mp4" },
                  { "label": "002", "file": "prideglory-loader.mp4" }] },
@@ -185,6 +202,7 @@
       ] },
     { "id": "wsdia",        "title": "WSDIA",               "kind": "Web",       "description": "Site builds for WSDIA.",
       "parts": [        
+        { "label": "v1",   "file": "wsdia-new.mp4" },
         { "label": "v1",   "file": "wsdia.mp4" }
       ] }
   ]

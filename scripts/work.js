@@ -13,8 +13,7 @@
     { id: "WEB",     label: "Web",     test: (e) => e.kind === "Web" },
     { id: "PRODUCT", label: "Product", test: (e) => e.kind === "Product" },
     { id: "CONCEPT", label: "Concept", test: (e) => e.kind === "Concept" },
-    { id: "MOTION",  label: "Motion",  test: (e) => e.kind === "Motion" },
-    { id: "LOOP",    label: "Loop",    test: (e) => e.kind === "Loop" }
+    { id: "MOTION",  label: "Motion",  test: (e) => e.kind === "Motion" }
   ];
 
   const state = {
@@ -343,6 +342,22 @@
   }
 
   function wireModal() {
+    // Spinner: visible while the modal video is buffering. The video element
+    // persists across opens/part-swaps, so listeners are bound once here.
+    const spinner = $("[data-modal-spinner]");
+    const modalVid = $("[data-modal-video]");
+    const showSpinner = () => spinner && spinner.classList.add("is-visible");
+    const hideSpinner = () => spinner && spinner.classList.remove("is-visible");
+    if (modalVid) {
+      modalVid.addEventListener("loadstart", showSpinner);
+      modalVid.addEventListener("waiting",   showSpinner);
+      modalVid.addEventListener("stalled",   showSpinner);
+      modalVid.addEventListener("playing",   hideSpinner);
+      modalVid.addEventListener("canplay",   hideSpinner);
+      modalVid.addEventListener("error",     hideSpinner);
+      modalVid.addEventListener("emptied",   hideSpinner);
+    }
+
     // Open from center frame
     const frame = $("[data-frame]");
     if (frame) frame.addEventListener("click", () => openModal(state.idx));
@@ -487,6 +502,44 @@
       wheelAccum = 0;
       transitionTo(dir);
     }, { passive: true });
+
+    // Touch: single-finger swipe advances once. Vertical mirrors the wheel
+    // (swipe up = next), horizontal follows the natural slider gesture
+    // (swipe left = next). Whichever axis has more displacement wins.
+    const sliderEl = $("[data-slider]");
+    if (sliderEl) {
+      const SWIPE_THRESHOLD = 40;
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchActive = false;
+      sliderEl.addEventListener("touchstart", (ev) => {
+        if (state.view !== "slider" || state.modalOpen || isAnimating) {
+          touchActive = false;
+          return;
+        }
+        if (ev.touches.length !== 1) { touchActive = false; return; }
+        touchStartX = ev.touches[0].clientX;
+        touchStartY = ev.touches[0].clientY;
+        touchActive = true;
+      }, { passive: true });
+      sliderEl.addEventListener("touchend", (ev) => {
+        if (!touchActive) return;
+        touchActive = false;
+        if (state.view !== "slider" || state.modalOpen || isAnimating) return;
+        const t = ev.changedTouches[0];
+        if (!t) return;
+        const dx = t.clientX - touchStartX;
+        const dy = t.clientY - touchStartY;
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+        if (Math.max(absX, absY) < SWIPE_THRESHOLD) return;
+        const dir = absY >= absX
+          ? (dy < 0 ? 1 : -1)   // swipe up = next, swipe down = prev
+          : (dx < 0 ? 1 : -1);  // swipe left = next, swipe right = prev
+        transitionTo(dir);
+      }, { passive: true });
+      sliderEl.addEventListener("touchcancel", () => { touchActive = false; }, { passive: true });
+    }
 
     // Keyboard: arrow keys advance.
     document.addEventListener("keydown", (ev) => {

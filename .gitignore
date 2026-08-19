@@ -38,3 +38,6 @@ build/
 # Source video files — too large for GitHub's 100 MB limit; host elsewhere (S3/CDN/Vercel Blob/etc.)
 videos/
 
+# Deploy script (contains bucket and CloudFront IDs)
+deploy.ps1
+
