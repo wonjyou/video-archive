@@ -589,11 +589,21 @@
   // the screen width instead.
   const TAGLINE_CAP_RATIO = 0.425;
 
+  // Narrow intro type sits 15% under a full-width fit — edge to edge reads as a
+  // touch too heavy on a phone.
+  const NARROW_FIT_SCALE = 0.85;
+
   function fitTagline() {
     const halves = [
       { container: $(".tagline--left"),  node: $(".tagline--left .tagline__line") },
       { container: $(".tagline--right"), node: $(".tagline--right .tagline__line") }
     ];
+
+    const narrow = isNarrow();
+    // Fit to a hair under the container so a rounding difference between the
+    // measured and the rendered advance width can't clip the last glyph, then
+    // hold narrow viewports back further so the intro type isn't edge to edge.
+    const fitPct = narrow ? 98 * NARROW_FIT_SCALE : 98;
 
     // Natural fit-to-width size for each half. Either half can be in the
     // centered full-viewport state (.is-centering) during the intro, so each is
@@ -611,9 +621,7 @@
       const naturalWidth = node.scrollWidth;
       if (restore !== null) node.textContent = restore;
       if (naturalWidth <= 0) return 0;
-      // Fit to a hair under the container so a rounding difference between the
-      // measured and the rendered advance width can't clip the last glyph.
-      return (98 * container.clientWidth) / naturalWidth;
+      return (fitPct * container.clientWidth) / naturalWidth;
     });
 
     // Hard cap: a fraction of the center frame's height, desktop only.
@@ -623,7 +631,6 @@
     // the transformed box makes the cap depend on exactly when a re-fit lands
     // mid-timeline, and the type visibly resizes when one does.
     const frameHeight = frame ? frame.offsetHeight : 0;
-    const narrow      = isNarrow();
     const maxByFrame  = (!narrow && frameHeight > 0)
       ? frameHeight * TAGLINE_CAP_RATIO
       : Infinity;
