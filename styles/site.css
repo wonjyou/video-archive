@@ -458,6 +458,13 @@ body.is-modal .bg-vignette { background: var(--bg); }
   font-size: 100px;
 }
 
+/* Below ~640px the strip beside the frame is under ~120px wide, so the split
+   halves can only render an illegible sliver of type. Hide them at rest; the
+   intro's centered counter (.is-centering) spans the viewport and still shows. */
+@media (max-width: 640px) {
+  .tagline:not(.is-centering) { display: none; }
+}
+
 /* Center frame with corner brackets */
 .frame {
   position: relative;

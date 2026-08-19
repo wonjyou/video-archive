@@ -574,17 +574,33 @@
   // to the RIGHT half so "In Motion" never reads larger than the left, and
   // additionally caps both halves at 50% of the center frame's height so the
   // title never overpowers the video.
+  // Widest string the intro counter displays — see fitTagline().
+  const COUNTER_WIDEST = "20+ Years";
+
   function fitTagline() {
     const halves = [
       { container: $(".tagline--left"),  node: $(".tagline--left .tagline__line") },
       { container: $(".tagline--right"), node: $(".tagline--right .tagline__line") }
     ];
 
+    // During the intro the left half carries the counter and spans the whole
+    // viewport (.is-centering), so it has to be measured in that state rather
+    // than inheriting the much narrower resting size.
+    const centering = !!(halves[0].container &&
+                         halves[0].container.classList.contains("is-centering"));
+
     // Natural fit-to-width size for each half.
-    const sizes = halves.map(({ container, node }) => {
+    const sizes = halves.map(({ container, node }, i) => {
       if (!container || !node || container.clientWidth <= 0) return 0;
+      // The counter's text changes every 70ms ("00 Years" ... "20+ Years"), and
+      // each string has a different natural width. Measure the widest one it
+      // will show so the size holds steady through the count instead of
+      // jittering on every tick.
+      const restore = (centering && i === 0) ? node.textContent : null;
+      if (restore !== null) node.textContent = COUNTER_WIDEST;
       node.style.fontSize = "100px";
       const naturalWidth = node.scrollWidth;
+      if (restore !== null) node.textContent = restore;
       if (naturalWidth <= 0) return 0;
       return (100 * container.clientWidth) / naturalWidth;
     });
@@ -622,6 +638,9 @@
     // ---- Initial state: left tagline becomes the centered counter ----
     if (leftHalf) leftHalf.classList.add("is-centering");
     if (leftLine) leftLine.textContent = "00 Years";
+    // Re-fit now that the left half spans the viewport; the bootstrap call above
+    // measured it in its narrow resting state.
+    fitTagline();
     gsap.set(leftHalf,  { opacity: 0 });
     // Right tagline starts fully off-screen to the right so it can slide in
     // from the viewport edge during phase 4.
