@@ -577,44 +577,66 @@
   // Widest string the intro counter displays — see fitTagline().
   const COUNTER_WIDEST = "20+ Years";
 
+  // Below this width the split layout doesn't fit beside the frame: the halves
+  // are hidden at rest (see site.css) and the intro plays them as two centered
+  // beats instead. Keep in sync with the matching CSS media query.
+  const NARROW_MQ = "(max-width: 640px)";
+  const isNarrow = () => window.matchMedia(NARROW_MQ).matches;
+
+  // Desktop caps the type at a fraction of the center frame's height so the
+  // taglines never overpower the video. Narrow viewports get no such cap: there
+  // the halves only ever appear as the intro's full-viewport beats, so they fit
+  // the screen width instead.
+  const TAGLINE_CAP_RATIO = 0.425;
+
   function fitTagline() {
     const halves = [
       { container: $(".tagline--left"),  node: $(".tagline--left .tagline__line") },
       { container: $(".tagline--right"), node: $(".tagline--right .tagline__line") }
     ];
 
-    // During the intro the left half carries the counter and spans the whole
-    // viewport (.is-centering), so it has to be measured in that state rather
-    // than inheriting the much narrower resting size.
-    const centering = !!(halves[0].container &&
-                         halves[0].container.classList.contains("is-centering"));
-
-    // Natural fit-to-width size for each half.
+    // Natural fit-to-width size for each half. Either half can be in the
+    // centered full-viewport state (.is-centering) during the intro, so each is
+    // measured against whatever width it currently has.
     const sizes = halves.map(({ container, node }, i) => {
       if (!container || !node || container.clientWidth <= 0) return 0;
-      // The counter's text changes every 70ms ("00 Years" ... "20+ Years"), and
-      // each string has a different natural width. Measure the widest one it
-      // will show so the size holds steady through the count instead of
-      // jittering on every tick.
-      const restore = (centering && i === 0) ? node.textContent : null;
+      // The left half carries the counter, whose text changes every 70ms
+      // ("00 Years" ... "20+ Years") and whose strings differ in natural width.
+      // Measure the widest one it will show so the size holds steady through the
+      // count instead of jittering on every tick.
+      const counting = i === 0 && container.classList.contains("is-centering");
+      const restore = counting ? node.textContent : null;
       if (restore !== null) node.textContent = COUNTER_WIDEST;
       node.style.fontSize = "100px";
       const naturalWidth = node.scrollWidth;
       if (restore !== null) node.textContent = restore;
       if (naturalWidth <= 0) return 0;
-      return (100 * container.clientWidth) / naturalWidth;
+      // Fit to a hair under the container so a rounding difference between the
+      // measured and the rendered advance width can't clip the last glyph.
+      return (98 * container.clientWidth) / naturalWidth;
     });
 
-    // Hard cap: 50% of the center frame's rendered height.
+    // Hard cap: a fraction of the center frame's height, desktop only.
     const frame = $(".frame");
-    const frameHeight = frame ? frame.getBoundingClientRect().height : 0;
-    const maxByFrame = frameHeight > 0 ? frameHeight * 0.5 : Infinity;
+    // offsetHeight, not getBoundingClientRect(): the cap has to follow the
+    // frame's layout box. The intro holds the frame at scale 0.85, so measuring
+    // the transformed box makes the cap depend on exactly when a re-fit lands
+    // mid-timeline, and the type visibly resizes when one does.
+    const frameHeight = frame ? frame.offsetHeight : 0;
+    const narrow      = isNarrow();
+    const maxByFrame  = (!narrow && frameHeight > 0)
+      ? frameHeight * TAGLINE_CAP_RATIO
+      : Infinity;
 
     const leftSize     = sizes[0] || 0;
     const rightSize    = sizes[1] || 0;
     const cappedLeft   = Math.min(leftSize, maxByFrame);
-    // Right also capped at left's actual applied size (so left stays the visual lead).
-    const cappedRight  = Math.min(rightSize, cappedLeft || rightSize, maxByFrame);
+    // Desktop holds the right half at or below the left so the left stays the
+    // visual lead. Narrow viewports show the two as sequential beats that each
+    // own the screen, so each fills its own width.
+    const cappedRight  = narrow
+      ? rightSize
+      : Math.min(rightSize, cappedLeft || rightSize, maxByFrame);
 
     if (halves[0].node && cappedLeft  > 0) halves[0].node.style.fontSize = cappedLeft  + "px";
     if (halves[1].node && cappedRight > 0) halves[1].node.style.fontSize = cappedRight + "px";
@@ -635,16 +657,26 @@
     const leftLine  = $(".tagline--left .tagline__line");
     const rightHalf = $(".tagline--right");
 
+    // No room for the split layout here, so the two lines play as consecutive
+    // centered beats instead of sliding in beside each other.
+    const narrow = isNarrow();
+
     // ---- Initial state: left tagline becomes the centered counter ----
     if (leftHalf) leftHalf.classList.add("is-centering");
+    // On narrow viewports the right half borrows the same centered mode so
+    // "In Motion" gets the viewport to itself as its own beat.
+    if (narrow && rightHalf) rightHalf.classList.add("is-centering");
     if (leftLine) leftLine.textContent = "00 Years";
-    // Re-fit now that the left half spans the viewport; the bootstrap call above
-    // measured it in its narrow resting state.
+    // Re-fit now that the halves span the viewport; the bootstrap call above
+    // measured them in their narrow resting state.
     fitTagline();
     gsap.set(leftHalf,  { opacity: 0 });
     // Right tagline starts fully off-screen to the right so it can slide in
     // from the viewport edge during phase 4.
-    const rightOffsetIn = (rightHalf ? rightHalf.getBoundingClientRect().width : 400) + 60;
+    const travel = window.innerWidth;
+    const rightOffsetIn = narrow
+      ? travel
+      : (rightHalf ? rightHalf.getBoundingClientRect().width : 400) + 60;
     gsap.set(rightHalf, { opacity: 0, x: rightOffsetIn });
 
     const tl = gsap.timeline({
@@ -675,27 +707,49 @@
     tl.call(() => { if (leftLine) leftLine.textContent = "20+ Years"; });
     tl.to({}, { duration: 0.35 });
 
-    // ---- Phase 4: slide over for IN MOTION ----
-    // Switch left tagline back to its fitted right-aligned container, then
-    // pre-set GSAP x so the text stays visually at the viewport center the
-    // instant the class is removed. After that, both halves animate to their
-    // close-together positions and the right half fades in.
-    tl.call(() => {
-      if (!leftHalf) return;
-      leftHalf.classList.remove("is-centering");
-      fitTagline();
-      gsap.set(leftHalf, { x: inset });   // text's right edge sits at viewport center
-    });
-    tl.to(leftHalf,  { x: closeInset,  duration: 0.7, ease: "power3.out" });
-    tl.to(rightHalf, { x: -closeInset, opacity: 1,    duration: 0.7, ease: "power3.out" }, "<");
+    if (narrow) {
+      // ---- Phase 4 (narrow): "20+ YEARS" exits left as "IN MOTION" enters ----
+      // One conveyor move: equal travel in the same direction reads as the second
+      // line pushing the first off, rather than two unrelated fades.
+      tl.to(leftHalf,  { x: -travel, duration: 0.7, ease: "power3.inOut" });
+      tl.to(rightHalf, { x: 0, opacity: 1, duration: 0.7, ease: "power3.inOut" }, "<");
 
-    // ---- Phase 5: hold (both halves close together) ----
-    tl.to({}, { duration: 0.35 });
+      // ---- Phase 5 (narrow): hold on IN MOTION ----
+      tl.to({}, { duration: 0.45 });
 
-    // ---- Phase 6: spread + frame fills the gap ----
-    tl.to(leftHalf,        { x: 0, duration: 0.95, ease: "expo.inOut" });
-    tl.to(rightHalf,       { x: 0, duration: 0.95, ease: "expo.inOut" }, "<");
-    tl.from("[data-frame]", { scale: 0.85, opacity: 0, duration: 0.95, ease: "power3.out" }, "<+0.1");
+      // ---- Phase 6 (narrow): it exits the same way, frame takes the stage ----
+      tl.to(rightHalf, {
+        x: -travel, duration: 0.7, ease: "power3.inOut",
+        onComplete: () => {
+          // Back to the resting state, which is display:none at this width.
+          if (leftHalf)  leftHalf.classList.remove("is-centering");
+          if (rightHalf) rightHalf.classList.remove("is-centering");
+        }
+      });
+      tl.from("[data-frame]", { scale: 0.85, opacity: 0, duration: 0.95, ease: "power3.out" }, "<+0.35");
+    } else {
+      // ---- Phase 4: slide over for IN MOTION ----
+      // Switch left tagline back to its fitted right-aligned container, then
+      // pre-set GSAP x so the text stays visually at the viewport center the
+      // instant the class is removed. After that, both halves animate to their
+      // close-together positions and the right half fades in.
+      tl.call(() => {
+        if (!leftHalf) return;
+        leftHalf.classList.remove("is-centering");
+        fitTagline();
+        gsap.set(leftHalf, { x: inset });   // text's right edge sits at viewport center
+      });
+      tl.to(leftHalf,  { x: closeInset,  duration: 0.7, ease: "power3.out" });
+      tl.to(rightHalf, { x: -closeInset, opacity: 1,    duration: 0.7, ease: "power3.out" }, "<");
+
+      // ---- Phase 5: hold (both halves close together) ----
+      tl.to({}, { duration: 0.35 });
+
+      // ---- Phase 6: spread + frame fills the gap ----
+      tl.to(leftHalf,        { x: 0, duration: 0.95, ease: "expo.inOut" });
+      tl.to(rightHalf,       { x: 0, duration: 0.95, ease: "expo.inOut" }, "<");
+      tl.from("[data-frame]", { scale: 0.85, opacity: 0, duration: 0.95, ease: "power3.out" }, "<+0.1");
+    }
 
     // ---- Phase 7: rest of UI ----
     tl.fromTo(".bg-video", { opacity: 0 }, { opacity: 0.85, duration: 1.0 }, "<+0.2");

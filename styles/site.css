@@ -445,8 +445,10 @@ body.is-modal .bg-vignette { background: var(--bg); }
 .tagline--left  { left: 0;  text-align: right; }
 .tagline--right { right: 0; text-align: left; }
 
-/* Intro counter mode: left tagline temporarily spans the viewport with centered text */
-.tagline--left.is-centering {
+/* Intro counter mode: a tagline half temporarily spans the viewport with centered
+   text. Desktop only ever uses this for the left half (the counter); on narrow
+   viewports the right half borrows it too, to play "In Motion" as its own beat. */
+.tagline.is-centering {
   left: 0;
   right: 0;
   width: auto;
