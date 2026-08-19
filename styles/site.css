@@ -465,6 +465,16 @@ body.is-modal .bg-vignette { background: var(--bg); }
    intro's centered counter (.is-centering) spans the viewport and still shows. */
 @media (max-width: 640px) {
   .tagline:not(.is-centering) { display: none; }
+
+  /* The intro reads as two stacked lines here. Each half owns one half of the
+     viewport and aligns its line against the centre line, so the pair sits
+     flush around the middle on its own — no transform involved. That matters:
+     the base .tagline centres with `transform: translateY(-50%)`, which GSAP
+     composes with rather than absorbing, so any y it animates would be offset
+     by half a line. Dropping the transform keeps those values absolute. */
+  .tagline.is-centering        { transform: none; display: flex; justify-content: center; }
+  .tagline--left.is-centering  { top: 0;   bottom: 50%; align-items: flex-end; }
+  .tagline--right.is-centering { top: 50%; bottom: 0;   align-items: flex-start; }
 }
 
 /* Center frame with corner brackets */

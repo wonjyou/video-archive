@@ -671,13 +671,28 @@
     // measured them in their narrow resting state.
     fitTagline();
     gsap.set(leftHalf,  { opacity: 0 });
-    // Right tagline starts fully off-screen to the right so it can slide in
-    // from the viewport edge during phase 4.
-    const travel = window.innerWidth;
+    // The right half enters from the viewport edge on desktop and from directly
+    // below on narrow viewports, so only desktop needs a starting x offset.
     const rightOffsetIn = narrow
-      ? travel
+      ? 0
       : (rightHalf ? rightHalf.getBoundingClientRect().width : 400) + 60;
     gsap.set(rightHalf, { opacity: 0, x: rightOffsetIn });
+
+    // Height of a half's rendered line of type (not its container, which spans
+    // half the viewport in the narrow layout).
+    const lineH = (half) => {
+      const line = half ? half.querySelector(".tagline__line") : null;
+      return line ? line.offsetHeight : 0;
+    };
+
+    if (narrow) {
+      // Narrow parks each half against the centre line of the viewport, which is
+      // where they belong once stacked. While the counter runs alone it should
+      // read as centred instead, so drop it by half its own line; "In Motion"
+      // waits just below the slot it will rise into.
+      gsap.set(leftHalf,  { y: lineH(leftHalf) / 2 });
+      gsap.set(rightHalf, { y: lineH(rightHalf) * 0.7 });
+    }
 
     const tl = gsap.timeline({
       defaults: { ease: "power3.out" },
@@ -708,25 +723,30 @@
     tl.to({}, { duration: 0.35 });
 
     if (narrow) {
-      // ---- Phase 4 (narrow): "20+ YEARS" exits left as "IN MOTION" enters ----
-      // One conveyor move: equal travel in the same direction reads as the second
-      // line pushing the first off, rather than two unrelated fades.
-      tl.to(leftHalf,  { x: -travel, duration: 0.7, ease: "power3.inOut" });
-      tl.to(rightHalf, { x: 0, opacity: 1, duration: 0.7, ease: "power3.inOut" }, "<");
+      // Stacked slot for both halves is y: 0 — the CSS layout already sits them
+      // flush against the viewport's centre line.
 
-      // ---- Phase 5 (narrow): hold on IN MOTION ----
-      tl.to({}, { duration: 0.45 });
+      // ---- Phase 4 (narrow): "20+ YEARS" lifts back to make room and
+      // "IN MOTION" rises in beneath it, so the full phrase reads as one unit ----
+      tl.to(leftHalf,  { y: 0, duration: 0.6, ease: "power3.out" });
+      tl.to(rightHalf, { y: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, "<+0.1");
 
-      // ---- Phase 6 (narrow): it exits the same way, frame takes the stage ----
-      tl.to(rightHalf, {
-        x: -travel, duration: 0.7, ease: "power3.inOut",
+      // ---- Phase 5 (narrow): hold on the whole phrase ----
+      tl.to({}, { duration: 0.6 });
+
+      // ---- Phase 6 (narrow): the lines part and the frame arrives in the gap.
+      // Desktop's spread-and-reveal, rotated for portrait. ----
+      const exit = window.innerHeight;
+      tl.to(leftHalf, {
+        y: -exit, duration: 0.9, ease: "expo.inOut",
         onComplete: () => {
           // Back to the resting state, which is display:none at this width.
           if (leftHalf)  leftHalf.classList.remove("is-centering");
           if (rightHalf) rightHalf.classList.remove("is-centering");
         }
       });
-      tl.from("[data-frame]", { scale: 0.85, opacity: 0, duration: 0.95, ease: "power3.out" }, "<+0.35");
+      tl.to(rightHalf, { y: exit, duration: 0.9, ease: "expo.inOut" }, "<");
+      tl.from("[data-frame]", { scale: 0.85, opacity: 0, duration: 0.95, ease: "power3.out" }, "<+0.25");
     } else {
       // ---- Phase 4: slide over for IN MOTION ----
       // Switch left tagline back to its fitted right-aligned container, then
